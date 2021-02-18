@@ -115,6 +115,11 @@
           description: `The webpage at <b>${url}</b> might be temporarily down or it may have moved permanently to a new web address.`,
           code: 'ERR_INVALID_URL',
         },
+        '-324': {
+          title: 'Not a valid Web3 URL',
+          description: `The webpage at <b>${url}</b> is not a valid Web3 address`,
+          code: 'ERR_INVALID_WEB3_URL',
+        },
         '-379': {
           title: 'This site can’t be reached',
           description: `The webpage at <b>${url}</b> might be temporarily down or it may have moved permanently to a new web address.`,
@@ -122,7 +127,7 @@
         },
       };
 
-      const { title, description, code, icon } = info[errorCode];
+      const { title, description, code } = info[errorCode];
       titleEl.textContent = title;
       descriptionEl.innerHTML = description;
       errorCodeEl.textContent = code;

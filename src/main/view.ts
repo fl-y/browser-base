@@ -116,14 +116,17 @@ export class View {
 
     this.webContents.addListener('did-navigate', async (e, url) => {
       this.emitEvent('did-navigate', url);
-
-      await this.addHistoryItem(url);
+      console.log('did navigate', url);
+      if (!url.startsWith('error://')) {
+        await this.addHistoryItem(url);
+      }
       this.updateURL(url);
     });
 
     this.webContents.addListener(
       'did-navigate-in-page',
       async (e, url, isMainFrame) => {
+        console.log('did navigate in page', url);
         if (isMainFrame) {
           this.emitEvent('did-navigate', url);
 
@@ -212,6 +215,7 @@ export class View {
     this.webContents.addListener(
       'page-favicon-updated',
       async (e, favicons) => {
+        console.log('favicon update', favicons);
         this.favicon = favicons[0];
 
         this.updateData();

@@ -75,11 +75,11 @@ const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     let url = value;
 
-    if (isURL(value)) {
-      url = value.indexOf('://') === -1 ? `http://${value}` : value;
-    } else {
-      url = store.settings.searchEngine.url.replace('%s', value);
-    }
+    // if (isURL(value)) {
+    url = value.indexOf('://') === -1 ? `http://${value}` : value;
+    // } else {
+    //   url = store.settings.searchEngine.url.replace('%s', value);
+    // }
 
     store.tabs.selectedTab.addressbarValue = url;
     callViewMethod(store.tabs.selectedTabId, 'loadURL', url);

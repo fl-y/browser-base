@@ -116,7 +116,6 @@ export class View {
 
     this.webContents.addListener('did-navigate', async (e, url) => {
       this.emitEvent('did-navigate', url);
-      console.log('did navigate', url);
       if (!url.startsWith('error://')) {
         await this.addHistoryItem(url);
       }
@@ -126,7 +125,6 @@ export class View {
     this.webContents.addListener(
       'did-navigate-in-page',
       async (e, url, isMainFrame) => {
-        console.log('did navigate in page', url);
         if (isMainFrame) {
           this.emitEvent('did-navigate', url);
 

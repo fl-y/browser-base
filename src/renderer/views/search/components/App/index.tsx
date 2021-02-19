@@ -14,6 +14,7 @@ import {
   DEFAULT_TITLEBAR_HEIGHT,
   TOOLBAR_HEIGHT,
 } from '~/constants/design';
+import { isURL } from '~/utils';
 
 const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
   if (e.which === 13) {
@@ -23,19 +24,30 @@ const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const text = e.currentTarget.value;
     let url = text;
 
-    const suggestion = store.suggestions.selectedSuggestion;
+    // const suggestion = store.suggestions.selectedSuggestion;
+    //
+    // if (suggestion) {
+    //   if (suggestion.isSearch) {
+    //     url = store.searchEngine.url.replace('%s', text);
+    //   } else if (text.indexOf('://') === -1) {
+    //     url = `http://${text}`;
+    //   }
+    // }
 
-    if (suggestion) {
-      if (suggestion.isSearch) {
-        url = store.searchEngine.url.replace('%s', text);
-      } else if (text.indexOf('://') === -1) {
-        url = `http://${text}`;
-      }
+    if (isURL(url)) {
+      url = text.indexOf('://') === -1 ? `http://${text}` : text;
+    } else {
+      alert('not a valid URL');
+      return;
     }
 
     e.currentTarget.value = url;
 
-    callViewMethod(store.tabId, 'loadURL', url);
+    callViewMethod(store.tabId, 'loadURL', url).then((res) => {
+      if (res instanceof Error) {
+        alert("Couldn't load the URL");
+      }
+    });
 
     store.hide();
   }
